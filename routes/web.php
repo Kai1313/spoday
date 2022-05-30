@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UpinController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('unipin')->group(function () {
+    Route::get('/dashboard', [UpinController::class, 'index'])->name('unipin-dashboard');
+    Route::prefix('master')->group(function () {
+        Route::get('/supplier', [UpinController::class, 'showMasterSupplier'])->name('unipin-master-supplier');
+        Route::get('/part', [UpinController::class, 'showMasterPart'])->name('unipin-master-part');
+        Route::get('/user', [UpinController::class, 'showMasterUser'])->name('unipin-master-user');
+    });
+    Route::get('/purchase-order', [UpinController::class, 'showPurchaseOrderList'])->name('unipin-purchase-order');
 });
 
 Route::get('/dashboard', function () {
